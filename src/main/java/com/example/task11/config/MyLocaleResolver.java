@@ -11,13 +11,13 @@ public class MyLocaleResolver implements LocaleResolver {
     public Locale resolveLocale(HttpServletRequest request) {
        String language = request.getParameter("lang");
        if(language == null || language.isEmpty()){
-           return Locale.forLanguageTag("uzb");
+           return Locale.forLanguageTag("uz");
        }
        Locale locale = Locale.forLanguageTag(language);
        if(LanguageConfig.LOCALES.contains(locale)) {
            return locale;
        }
-       return Locale.forLanguageTag("uzb");
+       return Locale.forLanguageTag("uz");
     }
 
     @Override

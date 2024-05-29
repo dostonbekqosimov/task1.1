@@ -1,9 +1,11 @@
 package com.example.task11.entity;
 
+
+
 public class PageReactionDTO {
+    // Getter and setter
     private String reaction;
 
-    // Getter and setter
     public String getReaction() {
         return reaction;
     }

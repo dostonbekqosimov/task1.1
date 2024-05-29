@@ -27,7 +27,7 @@ public class MyController {
 
     // GET ALL PAGES
     @GetMapping("/pages")
-    public List<Page> getAllPages(@RequestParam(name = "lang", defaultValue = "uz") String language) {
+    public List<PageTranslation> getAllPages(@RequestParam(name = "lang", defaultValue = "uz") String language) {
         Locale locale = Locale.forLanguageTag(language);
         return pageService.getAllPages(locale);
     }
@@ -35,18 +35,12 @@ public class MyController {
 
     // GET ALL STORIES
     @GetMapping("/stories")
-    public List<Story> getAllStories(@RequestParam(name = "lang", defaultValue = "uz") String language) {
+    public List<StoryTranslation> getAllStories(@RequestParam(name = "lang", defaultValue = "uz") String language) {
         Locale locale = Locale.forLanguageTag(language);
         return storyService.getAllStories(locale);
     }
 
-    // GET PAGES RELATED TO A STORY
-//    @GetMapping("stories/{storyId}")
-//    public List<Page> getAllPagesByStoryId(@PathVariable Long storyId,
-//                                           @RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
-//        Locale locale = Locale.forLanguageTag(language);
-//        return pageService.getAllPagesByStoryId(storyId, locale);
-//    }
+
 
     // REACT TO A PAGE
     @PostMapping("pages/{pageId}/reaction")
