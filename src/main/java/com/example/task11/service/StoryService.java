@@ -1,10 +1,9 @@
 package com.example.task11.service;
 
 
-import com.example.task11.entity.Page;
-import com.example.task11.entity.Story;
+
+import com.example.task11.entity.StoryTranslation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
@@ -20,32 +19,25 @@ public class StoryService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Story> getAllStories(Locale locale) {
-        String tableName = getTableName(locale);
-        String sql = "SELECT * FROM " + tableName;
-        return jdbcTemplate.query(sql, new StoryRowMapper());
-    }
-
-    private static String getTableName(Locale locale) {
+    public List<StoryTranslation> getAllStories(Locale locale) {
         String language = locale.getLanguage();
-        return switch (language) {
-            case "en" -> "stories";
-            case "ru" -> "stories_ru";
-            default -> "stories_uz";
-        };
+        String sql = "SELECT s.id, s.image, st.title, st.language FROM stories s " +
+                     "JOIN story_translations st ON s.id = st.storyid WHERE st.language = ?";
+        return jdbcTemplate.query(sql, new StoryTranslationRowMapper(), language);
     }
 
 
-
-    private static class StoryRowMapper implements RowMapper<Story> {
+    private static class StoryTranslationRowMapper implements RowMapper<StoryTranslation> {
 
         @Override
-        public Story mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Story story = new Story();
-            story.setId(rs.getLong("id"));
-            story.setTitle(rs.getString("title"));
-            story.setImage(rs.getString("image"));
-            return story;
+        public StoryTranslation mapRow(ResultSet rs, int rowNum) throws SQLException {
+            StoryTranslation storyTranslation = new StoryTranslation();
+            storyTranslation.setId(rs.getLong("id"));
+            storyTranslation.setStoryId(rs.getLong("id"));
+            storyTranslation.setLanguage(rs.getString("language"));
+            storyTranslation.setTitle(rs.getString("title"));
+            storyTranslation.setImage(rs.getString("image"));
+            return storyTranslation;
         }
     }
 }
