@@ -4,6 +4,7 @@ package com.example.task11.service;
 import com.example.task11.entity.Page;
 import com.example.task11.entity.Story;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class StoryService {
@@ -18,10 +20,25 @@ public class StoryService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Story> getAllStories() {
-        String sql = "SELECT * FROM stories";
+    public List<Story> getAllStories(Locale locale) {
+        String tableName = getTableName(locale);
+        String sql = "SELECT * FROM " + tableName;
         return jdbcTemplate.query(sql, new StoryRowMapper());
     }
+
+    private static String getTableName(Locale locale) {
+        String language = locale.getLanguage();
+        switch (language) {
+            case "eng":
+                return "stories";
+            case "ru":
+                return "stories_ru";
+            default:
+                return "stories_uz";
+        }
+    }
+
+
 
     private static class StoryRowMapper implements RowMapper<Story> {
 

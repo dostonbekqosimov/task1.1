@@ -1,16 +1,15 @@
 package com.example.task11.controller;
 
 
-import com.example.task11.entity.Page;
-import com.example.task11.entity.Reaction;
-import com.example.task11.entity.Story;
+import com.example.task11.entity.*;
 import com.example.task11.service.PageService;
-import com.example.task11.service.ReactionService;
 import com.example.task11.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api")
@@ -23,21 +22,37 @@ public class MyController {
     private StoryService storyService;
 
     @Autowired
-    private ReactionService reactionService;
+    private MessageSource messageSource;
 
+
+    // GET ALL PAGES
     @GetMapping("/pages")
-    public List<Page> getAllPages(){
-        return pageService.getAllPages();
+    public List<Page> getAllPages(@RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
+        Locale locale = Locale.forLanguageTag(language);
+        return pageService.getAllPages(locale);
     }
 
+
+    // GET ALL STORIES
     @GetMapping("/stories")
-    public List<Story> getAllStories(){
-        return storyService.getAllStories();
+    public List<Story> getAllStories(@RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
+        Locale locale = Locale.forLanguageTag(language);
+        return storyService.getAllStories(locale);
     }
 
+    // GET PAGES RELATED TO A STORY
+//    @GetMapping("stories/{storyId}")
+//    public List<Page> getAllPagesByStoryId(@PathVariable Long storyId,
+//                                           @RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
+//        Locale locale = Locale.forLanguageTag(language);
+//        return pageService.getAllPagesByStoryId(storyId, locale);
+//    }
+
+    // REACT TO A PAGE
     @PostMapping("pages/{pageId}/reaction")
-    public void reactToPage(@PathVariable Long pageId, @RequestBody Reaction reaction){
-        reactionService.reactToPage(pageId,reaction);
+    public void reactToPage(@PathVariable Long pageId, @RequestBody PageReactionDTO reaction) {
+        pageService.updatePageReaction(pageId, reaction);
     }
+
 
 }

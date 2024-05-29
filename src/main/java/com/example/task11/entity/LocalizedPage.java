@@ -1,24 +1,13 @@
 package com.example.task11.entity;
 
-public class Page {
+public class LocalizedPage {
 
-    private Long id;
     private String title;
     private String content;
+    private String callToAction;
     private String imageUrl;
     private String userReaction;
-    private String buttonText;
-    private Long storyId;
 
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -34,6 +23,14 @@ public class Page {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCallToAction() {
+        return callToAction;
+    }
+
+    public void setCallToAction(String callToAction) {
+        this.callToAction = callToAction;
     }
 
     public String getImageUrl() {
@@ -52,19 +49,5 @@ public class Page {
         this.userReaction = userReaction;
     }
 
-    public String getButtonText() {
-        return buttonText;
-    }
 
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
-    }
-
-    public Long getStoryId() {
-        return storyId;
-    }
-
-    public void setStoryId(Long storyId) {
-        this.storyId = storyId;
-    }
 }
