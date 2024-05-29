@@ -27,7 +27,7 @@ public class MyController {
 
     // GET ALL PAGES
     @GetMapping("/pages")
-    public List<Page> getAllPages(@RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
+    public List<Page> getAllPages(@RequestParam(name = "lang", defaultValue = "uz") String language) {
         Locale locale = Locale.forLanguageTag(language);
         return pageService.getAllPages(locale);
     }
@@ -35,7 +35,7 @@ public class MyController {
 
     // GET ALL STORIES
     @GetMapping("/stories")
-    public List<Story> getAllStories(@RequestHeader(name = "Accept-Language", defaultValue = "uzb") String language) {
+    public List<Story> getAllStories(@RequestParam(name = "lang", defaultValue = "uz") String language) {
         Locale locale = Locale.forLanguageTag(language);
         return storyService.getAllStories(locale);
     }
@@ -50,8 +50,10 @@ public class MyController {
 
     // REACT TO A PAGE
     @PostMapping("pages/{pageId}/reaction")
-    public void reactToPage(@PathVariable Long pageId, @RequestBody PageReactionDTO reaction) {
-        pageService.updatePageReaction(pageId, reaction);
+    public void reactToPage(@PathVariable Long pageId, @RequestBody PageReactionDTO reaction,
+                            @RequestParam(name = "lang", defaultValue = "uz") String language) {
+        Locale locale = Locale.forLanguageTag(language);
+        pageService.updatePageReaction(pageId, locale, reaction);
     }
 
 

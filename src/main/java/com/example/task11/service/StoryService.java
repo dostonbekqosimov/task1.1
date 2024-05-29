@@ -28,14 +28,11 @@ public class StoryService {
 
     private static String getTableName(Locale locale) {
         String language = locale.getLanguage();
-        switch (language) {
-            case "eng":
-                return "stories";
-            case "ru":
-                return "stories_ru";
-            default:
-                return "stories_uz";
-        }
+        return switch (language) {
+            case "en" -> "stories";
+            case "ru" -> "stories_ru";
+            default -> "stories_uz";
+        };
     }
 
 

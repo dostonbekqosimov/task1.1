@@ -29,10 +29,12 @@ public class PageService {
     }
 
 
-    public void updatePageReaction(Long pageId, PageReactionDTO reactionDTO) {
+    public void updatePageReaction(Long pageId, Locale locale, PageReactionDTO reactionDTO) {
 
+        String tableName = getTableName(locale);
         String reaction = reactionDTO.getReaction();
-        String sql = "UPDATE pages SET user_reaction = ? WHERE id = ?";
+
+        String sql = "UPDATE " + tableName + " SET user_reaction = ? WHERE id = ?";
         jdbcTemplate.update(sql, reaction, pageId);
     }
 
@@ -45,14 +47,11 @@ public class PageService {
     private static String getTableName(Locale locale) {
 
         String language = locale.getLanguage();
-        switch (language){
-            case "eng":
-                return "pages";
-            case "ru":
-                return "pages_ru";
-            default:
-                return "pages_uz";
-        }
+        return switch (language) {
+            case "en" -> "pages";
+            case "ru" -> "pages_ru";
+            default -> "pages_uz";
+        };
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.task11;
+package com.example.task11.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +9,7 @@ import java.util.Locale;
 public class MyLocaleResolver implements LocaleResolver {
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-       String language = request.getHeader("Accept-Language");
+       String language = request.getParameter("lang");
        if(language == null || language.isEmpty()){
            return Locale.forLanguageTag("uzb");
        }
